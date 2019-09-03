@@ -1,4 +1,4 @@
-package com.wenyang.im.imspringboot;
+package com.wenyang.im.rpc;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
