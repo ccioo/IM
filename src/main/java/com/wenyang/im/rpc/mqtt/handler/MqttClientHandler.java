@@ -1,6 +1,5 @@
-package com.wenyang.im.rpc.mqtt.handle;
+package com.wenyang.im.rpc.mqtt.handler;
 
-import com.wenyang.im.rpc.mqtt.codec.MQTTMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.mqtt.MqttFixedHeader;
@@ -19,11 +18,11 @@ import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
  * channelWritabilityChanged()
  */
 @Slf4j
-public class NettyMQTTHandler extends ChannelInboundHandlerAdapter {
+public class MqttClientHandler extends ChannelInboundHandlerAdapter {
 
     MqttMessageHandler mqttMessageHandler;
 
-    public NettyMQTTHandler(MqttMessageHandler mqttMessageHandler) {
+    public MqttClientHandler(MqttMessageHandler mqttMessageHandler) {
         this.mqttMessageHandler = mqttMessageHandler;
     }
 
@@ -36,12 +35,11 @@ public class NettyMQTTHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object message) {
         if (!(message instanceof MqttMessage)) {
-            log.error("Unknown mqtt message type {}, {}", message.getClass().getName(), message);
             return;
         }
-        MQTTMessage mqttMessage = (MQTTMessage) message;
+        MqttMessage mqttMessage = (MqttMessage) message;
         MqttMessageType messageType = mqttMessage.fixedHeader().messageType();
-        log.info("处理MQTT消息，type：{}", messageType);
+
         switch (messageType) {
             case CONNECT:
                 mqttMessageHandler.processConnect(ctx.channel(), mqttMessage);
@@ -74,7 +72,6 @@ public class NettyMQTTHandler extends ChannelInboundHandlerAdapter {
                 ctx.writeAndFlush(pingResp);
                 break;
             default:
-                log.error("Unkonwn MessageType:{}", messageType);
                 break;
         }
     }
