@@ -1,4 +1,4 @@
-package com.wenyang.im.rpc.WebSocketServer;
+package com.wenyang.im.rpc.webSocket;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

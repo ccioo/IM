@@ -1,4 +1,4 @@
-package com.wenyang.im.rpc.WebSocketServer;
+package com.wenyang.im.rpc.webSocket;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
