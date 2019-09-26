@@ -9,6 +9,9 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * 连接状态
+ */
 @Slf4j
 public class ConnectionDescriptor {
 
@@ -27,8 +30,7 @@ public class ConnectionDescriptor {
 
     public final String clientID;
     private final Channel channel;
-    private final AtomicReference<ConnectionState> channelState
-            = new AtomicReference<>(ConnectionState.DISCONNECTED);
+    private final AtomicReference<ConnectionState> channelState = new AtomicReference<>(ConnectionState.DISCONNECTED);
 
     public ConnectionDescriptor(String clientID, Channel session) {
         this.clientID = clientID;

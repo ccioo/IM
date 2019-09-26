@@ -14,19 +14,25 @@
  * You may elect to redistribute this code under either of these licenses.
  */
 
-package com.wenyang.im.rpc.netty;
+package com.wenyang.im.rpc.config;
 
-/**
- * Server constants keeper
- */
-public final class Constants {
+import java.io.Reader;
 
-    public static final String ATTR_CLIENTID = "ClientID";
-    public static final String CLEAN_SESSION = "cleanSession";
-    public static final String KEEP_ALIVE = "keepAlive";
-    public static final int MAX_MESSAGE_QUEUE = 1024; // number of messages
-    public static final int MAX_CHATROOM_MESSAGE_QUEUE = 256; // number of chatroom messages
+public interface IResourceLoader {
 
-    private Constants() {
+    Reader loadDefaultResource();
+
+    Reader loadResource(String relativePath);
+
+    String getName();
+
+    class ResourceIsDirectoryException extends RuntimeException {
+
+        private static final long serialVersionUID = -6969292229582764176L;
+
+        public ResourceIsDirectoryException(String message) {
+            super(message);
+        }
     }
+
 }

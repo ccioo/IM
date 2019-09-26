@@ -1,15 +1,13 @@
-package com.wenyang.im.rpc.mqtt.handler;
+package com.wenyang.im.rpc.mqtt.handler.impl;
 
-import com.wenyang.im.rpc.mqtt.session.ClientSession;
-import com.wenyang.im.rpc.mqtt.session.SessionDB;
+import com.wenyang.im.rpc.distributed.DistributeSessionackStore;
+import com.wenyang.im.rpc.mqtt.handler.MqttMessageHandler;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static io.netty.handler.codec.mqtt.MqttConnectReturnCode.CONNECTION_REFUSED_IDENTIFIER_REJECTED;
 import static io.netty.handler.codec.mqtt.MqttConnectReturnCode.CONNECTION_REFUSED_UNACCEPTABLE_PROTOCOL_VERSION;
@@ -20,7 +18,12 @@ import static io.netty.handler.codec.mqtt.MqttConnectReturnCode.CONNECTION_REFUS
 @Slf4j
 public class MqttMessageHandlerImpl implements MqttMessageHandler {
 
-    private Map<String, Integer> userStateMap = new ConcurrentHashMap<String, Integer>();
+
+    DistributeSessionackStore distributeSessionStore;
+
+    public MqttMessageHandlerImpl(DistributeSessionackStore distributeSessionStore) {
+        this.distributeSessionStore = distributeSessionStore;
+    }
 
     private static final List<Byte> bytes
             = Arrays.asList(MqttVersion.MQTT_3_1.protocolLevel(),
@@ -35,7 +38,7 @@ public class MqttMessageHandlerImpl implements MqttMessageHandler {
         int version = mqttConnectMessage.variableHeader().version();
         if (!bytes.contains(version)) {
             MqttConnAckMessage mqttConnAckMessage
-                    = collectionAck(CONNECTION_REFUSED_UNACCEPTABLE_PROTOCOL_VERSION);
+                    = distributeSessionStore.collectionAck(CONNECTION_REFUSED_UNACCEPTABLE_PROTOCOL_VERSION);
             channel.writeAndFlush(mqttConnAckMessage);
             channel.close();
             return;
@@ -43,43 +46,23 @@ public class MqttMessageHandlerImpl implements MqttMessageHandler {
 
         //客户端校验
         String clientId = mqttConnectPayload.clientIdentifier();
+
         if (clientId == null || clientId.length() == 0) {
             MqttConnAckMessage mqttConnAckMessage
-                    = collectionAck(CONNECTION_REFUSED_IDENTIFIER_REJECTED);
+                    = distributeSessionStore.collectionAck(CONNECTION_REFUSED_IDENTIFIER_REJECTED);
             channel.writeAndFlush(mqttConnAckMessage);
             channel.close();
             return;
         }
 
-        //校验登录 session 管理
-        boolean hasUserName = mqttConnectMessage.variableHeader().hasUserName();
-        if (hasUserName) {
-            String userName = mqttConnectMessage.payload().userName();
-            Integer state = userStateMap.get(userName);
-            if (state != null && state == 2) {
-                failedBlocked(channel);
-                return;
-            }
-        }
-        //密码校验
-        boolean hasPassword = mqttConnectMessage.variableHeader().hasPassword();
-        if (hasPassword) {
-            String password = mqttConnectMessage.payload().password();
-            ClientSession clientSession
-                    = SessionDB.getInstance().getClientSessionMap().get(clientId);
-            if (clientSession == null) {
-                String userName = mqttConnectMessage.payload().userName();
-                clientSession = SessionDB.getInstance().createNewSession(clientId, userName);
+        String userName1 = mqttConnectMessage.payload().userName();
+        String password1 = mqttConnectMessage.payload().password();
+        boolean login = distributeSessionStore.login(channel, mqttConnectMessage, clientId);
+        if (login) {
 
-            }
         }
-        //用户名密码校验
-        //todo
-        //匿名方式是否不支持
-        if (true) {
-            failedCredentials(channel);
-            return;
-        }
+
+
     }
 
 

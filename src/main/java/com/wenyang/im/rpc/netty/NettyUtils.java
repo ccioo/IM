@@ -16,6 +16,7 @@
 
 package com.wenyang.im.rpc.netty;
 
+import com.wenyang.im.rpc.constants.Constants;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
