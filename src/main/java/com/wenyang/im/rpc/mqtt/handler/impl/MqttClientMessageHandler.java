@@ -27,15 +27,10 @@ import static io.netty.handler.codec.mqtt.MqttConnectReturnCode.*;
 @Slf4j
 public class MqttClientMessageHandler extends BaseSessionackVo implements MqttMessageHandler {
 
-
     BrokerInterceptor m_interceptor;
-
     ServiceMessageStore serviceMessageStore;
-
     MqttClientSessionStore mqttClientSessionStore;
-
     DistributeSessionackStore distributeSessionStore;
-
 
 
     public MqttClientMessageHandler(DistributeSessionackStore distributeSessionStore,
