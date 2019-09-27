@@ -29,9 +29,13 @@ public class MqttClientMessageHandler extends BaseSessionackVo implements MqttMe
 
 
     BrokerInterceptor m_interceptor;
+
     ServiceMessageStore serviceMessageStore;
+
     MqttClientSessionStore mqttClientSessionStore;
+
     DistributeSessionackStore distributeSessionStore;
+
 
 
     public MqttClientMessageHandler(DistributeSessionackStore distributeSessionStore,
@@ -87,8 +91,7 @@ public class MqttClientMessageHandler extends BaseSessionackVo implements MqttMe
         //通知客户端连接成功 基于事件-这里没有实现类
         m_interceptor.notifyClientConnected(mqttConnectMessage);
         // 通知客户端ACK连接事件
-
-
+        sendAck(descriptor, mqttConnectMessage, clientId);
     }
 
 
