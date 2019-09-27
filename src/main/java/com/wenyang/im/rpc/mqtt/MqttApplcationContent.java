@@ -4,7 +4,7 @@ import com.wenyang.im.rpc.distributed.DistributeSessionackStore;
 import com.wenyang.im.rpc.distributed.impl.DBSessionStoreImpl;
 import com.wenyang.im.rpc.mqtt.handler.MqttClientHandler;
 import com.wenyang.im.rpc.mqtt.handler.MqttMessageHandler;
-import com.wenyang.im.rpc.mqtt.handler.impl.MqttMessageHandlerImpl;
+import com.wenyang.im.rpc.mqtt.handler.impl.MqttClientMessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.EpollEventLoopGroup;
@@ -53,7 +53,7 @@ public class MqttApplcationContent {
         }
         DistributeSessionackStore distributeSessionackStore
                 = new DistributeSessionackStore(new DBSessionStoreImpl());
-        MqttMessageHandler mqttMessageHandler = new MqttMessageHandlerImpl(distributeSessionackStore);
+        MqttMessageHandler mqttMessageHandler = new MqttClientMessageHandler(distributeSessionackStore);
         MqttClientHandler mqttClientHandler = new MqttClientHandler(mqttMessageHandler);
         initConnectionFactory(host, longPort, protocol,
                 new PipelineInitializer(nettyChannelTimeoutSeconds), mqttClientHandler);

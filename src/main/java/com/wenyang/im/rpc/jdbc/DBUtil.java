@@ -6,12 +6,13 @@
  * file that was distributed with this source code.
  */
 
-package com.wenyang.im.rpc.utils;
+package com.wenyang.im.rpc.jdbc;
 
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.wenyang.im.rpc.constants.BrokerConstants;
 import com.wenyang.im.rpc.config.IMServerConfig;
+import com.wenyang.im.rpc.utils.Utility;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

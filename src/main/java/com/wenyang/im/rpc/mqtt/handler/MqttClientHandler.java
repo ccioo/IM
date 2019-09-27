@@ -1,5 +1,6 @@
 package com.wenyang.im.rpc.mqtt.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.mqtt.MqttFixedHeader;
@@ -18,6 +19,7 @@ import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
  * channelWritabilityChanged()
  */
 @Slf4j
+@ChannelHandler.Sharable
 public class MqttClientHandler extends ChannelInboundHandlerAdapter {
 
     MqttMessageHandler mqttMessageHandler;

@@ -116,7 +116,11 @@ public class DistributeSessionackStore extends BaseSessionackVo {
             throw new IllegalArgumentException("无法创建一个新的session 因为已经存在" + clientID);
         }
         ClientSession clientSession = new ClientSession(clientID, this);
-        serverSession = isessionMapper.getSession(username, clientID, clientSession);
+        try {
+            serverSession = isessionMapper.getSession(username, clientID, clientSession);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (serverSession == null) {
             serverSession = isessionMapper.createSession(clientID, username, clientSession);
         }

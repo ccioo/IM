@@ -3,7 +3,7 @@ package com.wenyang.im.rpc.distributed.impl;
 import com.wenyang.im.rpc.distributed.DBSessionStore;
 import com.wenyang.im.rpc.mqtt.session.ClientSession;
 import com.wenyang.im.rpc.mqtt.session.ServerSession;
-import com.wenyang.im.rpc.utils.DBUtil;
+import com.wenyang.im.rpc.jdbc.DBUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
