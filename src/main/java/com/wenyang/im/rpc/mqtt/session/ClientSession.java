@@ -17,7 +17,7 @@
 package com.wenyang.im.rpc.mqtt.session;
 
 import com.wenyang.im.rpc.distributed.DistributeSessionackStore;
-import com.wenyang.im.rpc.mqtt.spi.IMessagesStore;
+import com.wenyang.im.rpc.distributed.IMessagesStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -12,11 +12,6 @@ import static io.netty.handler.codec.mqtt.MqttConnectReturnCode.CONNECTION_REFUS
 public interface MqttMessageHandler {
 
 
-
-
-
-
-
     /**
      * 处理连接
      *

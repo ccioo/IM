@@ -1,5 +1,6 @@
 package com.wenyang.im.rpc.distributed;
 
+import com.wenyang.im.rpc.mqtt.ack.MqttConnectAckPayload;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class BaseSessionackVo {
      * @param mqttConnectReturnCode
      * @return
      */
-    public MqttConnAckMessage collectionAck(MqttConnectReturnCode mqttConnectReturnCode) {
+    public MqttMessage collectionAck(MqttConnectReturnCode mqttConnectReturnCode) {
         //消息头部固定
         MqttFixedHeader mqttFixedHeader
                 = new MqttFixedHeader(MqttMessageType.CONNACK,
@@ -55,5 +56,17 @@ public class BaseSessionackVo {
         MqttConnAckVariableHeader mqttConnAckVariableHeader
                 = new MqttConnAckVariableHeader(mqttConnectReturnCode, false);
         return new MqttConnAckMessage(mqttFixedHeader, mqttConnAckVariableHeader);
+    }
+
+    public MqttMessage collectionAck(MqttConnectReturnCode mqttConnectReturnCode, boolean sessionPresent, byte[] data) {
+        //消息头部固定
+        MqttFixedHeader mqttFixedHeader
+                = new MqttFixedHeader(MqttMessageType.CONNACK,
+                false, MqttQoS.AT_MOST_ONCE,
+                false, 0);
+        //消息可变头部
+        MqttConnAckVariableHeader mqttConnAckVariableHeader
+                = new MqttConnAckVariableHeader(mqttConnectReturnCode, sessionPresent);
+        return new MqttMessage(mqttFixedHeader, mqttConnAckVariableHeader, new MqttConnectAckPayload(data));
     }
 }

@@ -1,6 +1,7 @@
 package com.wenyang.im.rpc.mqtt;
 
 import com.wenyang.im.rpc.distributed.DistributeSessionackStore;
+import com.wenyang.im.rpc.distributed.MqttClientSessionStore;
 import com.wenyang.im.rpc.distributed.impl.DBSessionStoreImpl;
 import com.wenyang.im.rpc.mqtt.handler.MqttClientHandler;
 import com.wenyang.im.rpc.mqtt.handler.MqttMessageHandler;
@@ -53,8 +54,10 @@ public class MqttApplcationContent {
         }
         DistributeSessionackStore distributeSessionackStore
                 = new DistributeSessionackStore(new DBSessionStoreImpl());
-        MqttMessageHandler mqttMessageHandler = new MqttClientMessageHandler(distributeSessionackStore);
+        MqttClientSessionStore mqttClientSessionStore = new MqttClientSessionStore();
+        MqttMessageHandler mqttMessageHandler = new MqttClientMessageHandler(distributeSessionackStore, mqttClientSessionStore);
         MqttClientHandler mqttClientHandler = new MqttClientHandler(mqttMessageHandler);
+
         initConnectionFactory(host, longPort, protocol,
                 new PipelineInitializer(nettyChannelTimeoutSeconds), mqttClientHandler);
     }

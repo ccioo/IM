@@ -17,13 +17,11 @@ public class ConnectionDescriptor {
 
 
     public enum ConnectionState {
-        // Connection states
-        DISCONNECTED,
-        SENDACK,
-        SESSION_CREATED,
+        DISCONNECTED, //1
+        SENDACK,  //2
+        SESSION_CREATED,//3
         MESSAGES_REPUBLISHED,
         ESTABLISHED,
-        // Disconnection states
         MESSAGES_DROPPED,
         INTERCEPTORS_NOTIFIED;
     }

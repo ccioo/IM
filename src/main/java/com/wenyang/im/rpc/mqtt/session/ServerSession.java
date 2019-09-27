@@ -1,6 +1,6 @@
 package com.wenyang.im.rpc.mqtt.session;
 
-import com.wenyang.im.rpc.mqtt.spi.IMessagesStore;
+import com.wenyang.im.rpc.distributed.IMessagesStore;
 import io.netty.handler.codec.mqtt.MqttVersion;
 import lombok.AllArgsConstructor;
 import lombok.Data;

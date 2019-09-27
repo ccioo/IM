@@ -24,8 +24,10 @@ public final class Constants {
     public static final String ATTR_CLIENTID = "ClientID";
     public static final String CLEAN_SESSION = "cleanSession";
     public static final String KEEP_ALIVE = "keepAlive";
-    public static final int MAX_MESSAGE_QUEUE = 1024; // number of messages
-    public static final int MAX_CHATROOM_MESSAGE_QUEUE = 256; // number of chatroom messages
+    //客户端获取到的历史消息数目
+    public static final int MAX_MESSAGE_QUEUE = 1024;
+    //客户端获取到的历史聊天室消息
+    public static final int MAX_CHATROOM_MESSAGE_QUEUE = 256;
 
     private Constants() {
     }
