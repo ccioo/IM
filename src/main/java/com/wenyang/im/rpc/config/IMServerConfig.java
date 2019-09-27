@@ -16,7 +16,6 @@
 
 package com.wenyang.im.rpc.config;
 
-import com.wenyang.im.rpc.constants.BrokerConstants;
 
 /**
  * Base interface for all configuration implementations (filesystem, memory or classpath)

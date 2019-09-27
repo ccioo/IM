@@ -1,14 +1,14 @@
 package com.wenyang.im.rpc.mqtt.handler.impl;
 
+import com.common.core.distributed.BaseSessionackVo;
+import com.common.core.distributed.DistributeSessionackStore;
+import com.common.core.distributed.MqttClientSessionStore;
+import com.common.core.utils.NettyUtils;
+import com.common.jdbc.service.ServiceMessageStore;
 import com.moque.third.BrokerInterceptor;
-import com.wenyang.im.rpc.distributed.BaseSessionackVo;
-import com.wenyang.im.rpc.distributed.DistributeSessionackStore;
-import com.wenyang.im.rpc.distributed.MqttClientSessionStore;
-import com.wenyang.im.rpc.distributed.ServiceMessageStore;
-import com.wenyang.im.rpc.mqtt.connection.ConnectionDescriptor;
+import com.common.core.connection.ConnectionDescriptor;
 import com.wenyang.im.rpc.mqtt.handler.MqttMessageHandler;
 import com.wenyang.im.rpc.mqtt.protocol.WFCMessage;
-import com.wenyang.im.rpc.netty.NettyUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.mqtt.*;
@@ -17,15 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
-import static com.wenyang.im.rpc.mqtt.connection.ConnectionDescriptor.ConnectionState.DISCONNECTED;
-import static com.wenyang.im.rpc.mqtt.connection.ConnectionDescriptor.ConnectionState.SENDACK;
+import static com.common.core.connection.ConnectionDescriptor.ConnectionState.DISCONNECTED;
+import static com.common.core.connection.ConnectionDescriptor.ConnectionState.SENDACK;
 import static io.netty.handler.codec.mqtt.MqttConnectReturnCode.*;
 
 /**
  * @Author wen.yang
  */
 @Slf4j
-public class MqttClientMessageHandler extends BaseSessionackVo implements MqttMessageHandler {
+public class MqttClientConnectionHandler extends BaseSessionackVo implements MqttMessageHandler {
 
     BrokerInterceptor m_interceptor;
     ServiceMessageStore serviceMessageStore;
@@ -33,8 +33,8 @@ public class MqttClientMessageHandler extends BaseSessionackVo implements MqttMe
     DistributeSessionackStore distributeSessionStore;
 
 
-    public MqttClientMessageHandler(DistributeSessionackStore distributeSessionStore,
-                                    MqttClientSessionStore mqttClientSessionStore) {
+    public MqttClientConnectionHandler(DistributeSessionackStore distributeSessionStore,
+                                       MqttClientSessionStore mqttClientSessionStore) {
         this.distributeSessionStore = distributeSessionStore;
         this.mqttClientSessionStore = mqttClientSessionStore;
         this.serviceMessageStore = new ServiceMessageStore();
